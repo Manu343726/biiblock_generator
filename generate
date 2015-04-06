@@ -1,0 +1,4 @@
+#!/bin/sh
+''''which python2 >/dev/null 2>&1 && exec python2 "./generate.py" "$@" # '''
+''''which python  >/dev/null 2>&1 && exec python  "./generate.py" "$@" # '''
+''''exec echo "Error: I can't find python anywhere"                  # '''
