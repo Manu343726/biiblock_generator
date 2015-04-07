@@ -1,4 +1,4 @@
-import settings # note there should be a settings.py in the path or working directory
+import settings # note there should be a settings.py module in the path or working directory
 import subprocess
 import os
 import argparse
