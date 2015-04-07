@@ -13,5 +13,5 @@ done
 ''''exec echo "Error: I can't find python anywhere"                       # '''
 
 for source in "${sources[@]}"; do
-    rm -f "./${source}"
+    rm -fv "./${source}"
 done
