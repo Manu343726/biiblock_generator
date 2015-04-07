@@ -12,6 +12,6 @@ done
 ''''which python  >/dev/null 2>&1 && exec python  "./${entry_point}" "$@" # '''
 ''''exec echo "Error: I can't find python anywhere"                       # '''
 
-for source in "sources[@]"; do
-    rm -f "${source}"
+for source in "${sources[@]}"; do
+    rm -f "./${source}"
 done
