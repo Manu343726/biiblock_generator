@@ -22,7 +22,7 @@ class GenerationSettings:
 
     def _check_entry(self, block, file, variable):
         blockPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 self._templates_path, block)
+                                 self.templates_path, block)
         filePath = os.path.join(blockPath, file)
         tag = "<" + variable + ">"
 
