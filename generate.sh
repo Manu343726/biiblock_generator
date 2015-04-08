@@ -8,9 +8,9 @@ for source in "${sources[@]}"; do
     wget -O "${source}" "${remote}/${source}"
 done
 
-''''which python2 >/dev/null 2>&1 && exec python2 "./${entry_point}" "$@" # '''
-''''which python  >/dev/null 2>&1 && exec python  "./${entry_point}" "$@" # '''
-''''exec echo "Error: I can't find python anywhere"                       # '''
+''''which python2 >/dev/null 2>&1 && (exec python2 "./${entry_point}" "$@" || true) # '''
+''''which python  >/dev/null 2>&1 && (exec python  "./${entry_point}" "$@" || true) # '''
+''''exec echo "Error: I can't find python anywhere"                                 # '''
 
 for source in "${sources[@]}"; do
     rm -fv "./${source}"
