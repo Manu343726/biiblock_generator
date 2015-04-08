@@ -36,7 +36,7 @@ class generator(object):
 
     def __init__(self):
         __settings = settings.settings(self.default_cli())
-        self.packages = __settings.packages()
+        self.templates = __settings.templates()
         self.variables = __settings.variables()
         self.passwords = __settings.passwords()
         self.projectDir = os.path.dirname(os.path.abspath(__file__))
@@ -65,8 +65,9 @@ class generator(object):
     def execute(self):
         from shutil import copytree, rmtree, ignore_patterns
 
-        for block, settings in sorted(self.packages.iteritems()):
+        for block, settings in sorted(self.templates.iteritems()):
             publish_block = settings['publish']
+            tag = settings['tag']
             entry = settings['file']
             print "Processing " + block
             print "="*30
@@ -104,7 +105,7 @@ class generator(object):
                 if not user in out:
                     raise RuntimeError("Failed logging in as '" + user + "'. bii user output: \"" + out + "\"")
 
-                publish = subprocess.Popen(['bii', 'publish', block, '--tag', publish_block], cwd=self.projectDir)
+                publish = subprocess.Popen(['bii', 'publish', block, '--tag', tag], cwd=self.projectDir)
                 publish.wait()
 
 
