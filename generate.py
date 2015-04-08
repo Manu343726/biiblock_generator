@@ -29,6 +29,9 @@ class generator(object):
         cli_parser.add_argument("--templates-path", help="Path to block templates location",
                                 dest="templates_path", default="blocktemplates")
 
+        cli_parser.add_argument("--blocks-path", help="Path to output blocks location",
+                                dest="blocks_path", default="blocks")
+
         return cli_parser
 
     def __init__(self):
