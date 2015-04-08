@@ -68,9 +68,11 @@ class generator(object):
         for block, settings in sorted(self.templates.iteritems()):
             publish_block = settings['publish']
             tag = settings['tag']
-            entry = settings['file']
+            entry = settings['files']
             print "Processing " + block
             print "="*30
+
+            template_files = [x for x in entry.iterkeys()]
 
             #Copy block contents except templates to blocks/block
 
