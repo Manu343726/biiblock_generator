@@ -26,6 +26,9 @@ class generator(object):
         cli_parser.add_argument("--exclude", help="Exclude explicitly blocks from generation. Pass block names separated with spaces",
                             default="")
 
+        cli_parser.add_argument("--templates-path", help="Path to block templates location",
+                                dest="templates_path", default="blocktemplates")
+
         return cli_parser
 
     def __init__(self):
@@ -35,8 +38,8 @@ class generator(object):
         self.passwords = __settings.passwords()
         self.projectDir = os.path.dirname(os.path.abspath(__file__))
 
-        self.blocks_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blocks")
-        self.templates_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blocktemplates")
+        self.blocks_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.blocks_path())
+        self.templates_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.templates_path())
 
     def setting_to_tag(self, setting):
         """Returns the file template tag corresponding to a specific setting"""
@@ -59,11 +62,11 @@ class generator(object):
     def execute(self):
         from shutil import copytree, rmtree, ignore_patterns
 
-        for block, (publish_block, entry) in sorted(self.packages.iteritems()):
+        for block, settings in sorted(self.packages.iteritems()):
+            publish_block = settings['publish']
+            entry = settings['file']
             print "Processing " + block
             print "="*30
-
-            template_files = [x[0] for x in entry]
 
             #Copy block contents except templates to blocks/block
 
@@ -72,7 +75,7 @@ class generator(object):
                      os.path.join(self.blocks_directory, block),
                      ignore_patterns(template_files))
 
-            for template, _ in entry:
+            for template, _ in entry.iteritems():
                 print " - " + template
 
                 ifile = open(os.path.join(self.templates_directory, block, template), 'r')
@@ -86,7 +89,7 @@ class generator(object):
                 ifile.close()
                 ofile.close()
 
-            if publish_block != "disabled":
+            if publish_block:
                 print "Publishing '{0}({1})'".format(block, self.working_track())
 
                 user = block.split('/')[0]

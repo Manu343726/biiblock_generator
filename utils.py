@@ -8,10 +8,12 @@ class CorruptSettingsError(Exception):
 
 
 class GenerationSettings:
-    def __init__(self, packages, variables, passwords):
-        self._packages = packages
+    def __init__(self, templates, variables, passwords, templates_path="blocktemplates", blocks_path="blocks"):
+        self._templates = templates
         self._variables = variables
         self._passwords = passwords
+        self._templates_path = templates_path
+        self.blocks_path = blocks_path
 
         self._check()
 
@@ -20,7 +22,7 @@ class GenerationSettings:
 
     def _check_entry(self, block, file, variable):
         blockPath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 "blocktemplates", block)
+                                 self._templates_path, block)
         filePath = os.path.join(blockPath, file)
         tag = "<" + variable + ">"
 
@@ -38,22 +40,30 @@ class GenerationSettings:
             self._error("No '{0}' block found in block templates directory".format(block))
 
     def _check(self):
-        for block, (publish, replaces) in self._packages.iteritems():
-            for file, variables in replaces:
+        for block, settings in self._templates.iteritems():
+            for file, variables in settings['files'].iteritems():
                 for variable in variables:
+                    tag = '<' + variable + '>'
+
                     if variable in self._variables:
                         self._check_entry(block, file, variable)
                     else:
                         self._error("No variable corresponding to '{0}' tag found in '{1}/{2}'".format(tag, block, file))
 
-    def packages(self):
-        return self._packages
+    def templates(self):
+        return self._templates
 
     def variables(self):
         return self._variables
 
     def passwords(self):
         return self._passwords
+
+    def templates_path(self):
+        return self._templates_path
+
+    def blocks_path(self):
+        return self._blocks_path    
 
 
 def latest_block_version(block, track):
