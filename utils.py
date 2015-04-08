@@ -9,10 +9,10 @@ class CorruptSettingsError(Exception):
 
 class GenerationSettings:
     def __init__(self, templates, variables, passwords, templates_path="blocktemplates", blocks_path="blocks"):
-        self._templates = templates
-        self._variables = variables
-        self._passwords = passwords
-        self._templates_path = templates_path
+        self.templates = templates
+        self.variables = variables
+        self.passwords = passwords
+        self.templates_path = templates_path
         self.blocks_path = blocks_path
 
         self._check()
@@ -40,7 +40,7 @@ class GenerationSettings:
             self._error("No '{0}' block found in block templates directory".format(block))
 
     def _check(self):
-        for block, settings in self._templates.iteritems():
+        for block, settings in self.templates.iteritems():
             for file, variables in settings['files'].iteritems():
                 for variable in variables:
                     tag = '<' + variable + '>'
@@ -48,22 +48,7 @@ class GenerationSettings:
                     if variable in self._variables:
                         self._check_entry(block, file, variable)
                     else:
-                        self._error("No variable corresponding to '{0}' tag found in '{1}/{2}'".format(tag, block, file))
-
-    def templates(self):
-        return self._templates
-
-    def variables(self):
-        return self._variables
-
-    def passwords(self):
-        return self._passwords
-
-    def templates_path(self):
-        return self._templates_path
-
-    def blocks_path(self):
-        return self._blocks_path    
+                        self._error("No variable corresponding to '{0}' tag found in '{1}/{2}'".format(tag, block, file))   
 
 
 def latest_block_version(block, track):

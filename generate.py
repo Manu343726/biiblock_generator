@@ -36,13 +36,13 @@ class generator(object):
 
     def __init__(self):
         __settings = settings.settings(self.default_cli())
-        self.templates = __settings.templates()
-        self.variables = __settings.variables()
-        self.passwords = __settings.passwords()
+        self.templates = __settings.templates
+        self.variables = __settings.variables
+        self.passwords = __settings.passwords
         self.projectDir = os.path.dirname(os.path.abspath(__file__))
 
-        self.blocks_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.blocks_path())
-        self.templates_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.templates_path())
+        self.blocks_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.blocks_path)
+        self.templates_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), __settings.templates_path)
 
     def setting_to_tag(self, setting):
         """Returns the file template tag corresponding to a specific setting"""
