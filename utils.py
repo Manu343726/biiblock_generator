@@ -45,7 +45,7 @@ class GenerationSettings:
                 for variable in variables:
                     tag = '<' + variable + '>'
 
-                    if variable in self._variables:
+                    if variable in self.variables:
                         self._check_entry(block, file, variable)
                     else:
                         self._error("No variable corresponding to '{0}' tag found in '{1}/{2}'".format(tag, block, file))   
